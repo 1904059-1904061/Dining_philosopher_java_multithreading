@@ -17,7 +17,10 @@ public class Runsimulation {
     }
     for(int i = 1;i<=5;i++){
         for(int j=1;j<=5;j++){
-           String philsopher_label =Character.toString((char)65);
+           String philsopher_label = Character.toString((char)65);
+           Philosopher philosopher = new Philosopher(tables[i], philsopher_label);
+           Thread philosopher_thread = new Thread(() -> philosopher.simulate_philosopher());
+           philosopher_thread.start();
         }
     }
   }
