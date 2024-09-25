@@ -3,4 +3,7 @@ public class Table {
     public Table(int id){
       this.id = id;
     }
+    public int getId(){
+      return this.id;
+    }
 }

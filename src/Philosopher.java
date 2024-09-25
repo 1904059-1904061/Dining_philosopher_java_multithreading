@@ -6,14 +6,15 @@ public class Philosopher {
         this.label = label;
     }
     public void simulate_philosopher() {
-        try{
-        think();
-        }catch(InterruptedException e){
-            Thread.currentThread().interrupt();
-        }
+        // try{
+        //     System.out.println(this.label + " is thinking on table "+ this.table.getId());
+        // }catch(InterruptedException e){
+        //     Thread.currentThread().interrupt();
+        // }
+        System.out.println(this.label + " is thinking on table "+ this.table.getId());
     }
-    private void think() throws InterruptedException{
-       System.out.println(this.label + "is thinking");
-       Thread.sleep(1000);    // thinking for bla bla seconds
-    }
+    // private void think() throws InterruptedException{
+    //    System.out.println(this.label + " is thinking on table "+ this.table.getId());
+    // //    Thread.sleep(1000);    // thinking for bla bla seconds
+    // }
 }
