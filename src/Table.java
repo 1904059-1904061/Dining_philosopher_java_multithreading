@@ -17,9 +17,7 @@ public class Table {
                 if (forks[rightFork].tryAcquire()) {     // trying to get the right fork
                     System.out.println(philosopherLabel + " picked up both forks.");
                     return true;  // when he gets both forks
-                } else {
-                    forks[leftFork].release();
-                }
+                } 
             } finally {
                 forks[leftFork].release();
             }

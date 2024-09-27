@@ -9,8 +9,8 @@ public class Philosopher {
         while (true) {
         try{
             think();
-            if(table.fork_available){
-                // eat
+            if(table.fork_available(this.label)){
+                eat();
             }
             else{
                 //check deadlock
@@ -23,5 +23,9 @@ public class Philosopher {
     private void think() throws InterruptedException{
        System.out.println(this.label + " is thinking on table "+ this.table.getId());
        Thread.sleep(1000);    // thinking for bla bla seconds
+    }
+    private void eat() throws InterruptedException {
+        System.out.println(this.label + " is eating.");
+        Thread.sleep(5000); // eating 5 seconds suppose
     }
 }
