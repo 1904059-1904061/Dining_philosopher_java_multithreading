@@ -1,27 +1,52 @@
 import java.util.concurrent.Semaphore;
+
 public class Table {
-   private final Semaphore[] forks = new Semaphore[5];
-    private int id;
-    public Table(int id){
-      this.id = id;
+    private final Semaphore[] forks = new Semaphore[5]; // 5 forks per table
+    private final Philosopher[] philosophers = new Philosopher[5]; // 5 philosophers at each table
+    private final int id;
+
+    public Table(int id) {
+        this.id = id;
+        for (int i = 0; i < 5; i++) {
+            forks[i] = new Semaphore(1); 
+        }
     }
-    public int getId(){
-      return this.id;
+
+    public int getId() {
+        return this.id;
     }
+
+    // Add a philosopher to this table
+    public void addPhilosopher(Philosopher philosopher, int index) {
+        philosophers[index] = philosopher;
+    }
+
     public boolean fork_available(Philosopher philosopher) throws InterruptedException {
-          int leftFork = philosopher.getLabel().charAt(0) % 5;
-          int rightFork = (leftFork + 1) % 5;
-          if (forks[leftFork].tryAcquire()) {
+        int leftFork = philosopher.getLabel().charAt(0) % 5;
+        int rightFork = (leftFork + 1) % 5;
+        if (forks[leftFork].tryAcquire()) {
             try {
-                
-                if (forks[rightFork].tryAcquire()) {     // trying to get the right fork
+                if (forks[rightFork].tryAcquire()) {
                     System.out.println(philosopher.getLabel() + " picked up both forks.");
-                    return true;  // when he gets both forks
-                } 
+                    return true; // Successfully picked up both forks
+                }
             } finally {
                 forks[leftFork].release();
             }
         }
         return false; 
-  }
+    }
+
+    public boolean isDeadlocked() {
+        for (Philosopher philosopher : philosophers) {
+            if (philosopher != null && !philosopher.isHungry()) {
+                return false;
+            }
+        }
+        return true; 
+    }
+
+    public void moveToSixthTable(Philosopher philosopher) {
+        System.out.println(philosopher.getLabel() + " moves to the sixth table.");
+    }
 }
