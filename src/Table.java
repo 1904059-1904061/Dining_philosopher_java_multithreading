@@ -24,17 +24,18 @@ public class Table {
     public boolean fork_available(Philosopher philosopher) throws InterruptedException {
         int leftFork = philosopher.getLabel().charAt(0) % 5;
         int rightFork = (leftFork + 1) % 5;
-        if (forks[leftFork].tryAcquire()) {
-            try {
-                if (forks[rightFork].tryAcquire()) {
-                    System.out.println(philosopher.getLabel() + " picked up both forks.");
-                    return true; // Successfully picked up both forks
-                }
-            } finally {
-                forks[leftFork].release();
-            }
+    
+        forks[leftFork].acquire();
+        System.out.println(philosopher.getLabel() + "picked up the left fork");
+    
+        try {
+            forks[rightFork].acquire();
+            System.out.println(philosopher.getLabel() + " picked up both forks."); // both forked picked
+            return true; 
+        } catch (InterruptedException e) {
+            forks[leftFork].release();
+            throw e;
         }
-        return false; 
     }
 
     public boolean isDeadlocked() {
